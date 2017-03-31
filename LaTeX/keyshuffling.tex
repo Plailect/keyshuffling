@@ -586,7 +586,7 @@ perform the implementation v2.0 steps described previously. ARM9Loader will then
 identical to Key \#1), disable access to the OTP memory region by setting
 CFG\_SYSPROT9, and jump to the ARM9 firmware binary entrypoint. When it does, it
 will immediately jump to memory address \texttt{0x80FD0F8}, execute the series
-of NOP nop instructions and "slide" to the payload. The payload then copies the
+of NOP instructions and "slide" to the payload. The payload then copies the
 hash of the OTP memory region from the uncleared SHA\_HASH output register for
 the purpose of decrypting the keysector at a later point.
 
