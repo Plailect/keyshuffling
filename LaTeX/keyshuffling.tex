@@ -452,7 +452,7 @@ is disabled until next boot via the hardware register CFG\_SYSPROT9. Once the
 OTP region has been secured, ARM9Loader then decrypts the ARM9 firmware binary
 using a key from the decrypted keysector. Additionally, the hash of the OTP
 memory region is outputted to the SHA\_HASH hardware register after the hardware
-SHA implementation calculates it \cite{SHA_Registers}. Importantly, This
+SHA implementation calculates it \cite{SHA_Registers}. Importantly, this
 register is not cleared until the ARM9 firmware binary clears it after
 ARM9Loader jumps to its entrypoint.
 
