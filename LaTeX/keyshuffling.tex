@@ -450,7 +450,7 @@ AES module \cite{AES_Registers}.
 After ARM9Loader decrypts the NAND "keysector", access to the OTP memory region
 is disabled until next boot via the hardware register CFG\_SYSPROT9. Once the
 OTP region has been secured, ARM9Loader then decrypts the ARM9 firmware binary
-using a key from the decryted keysector. Additionally, the hash of the OTP
+using a key from the decrypted keysector. Additionally, the hash of the OTP
 memory region is outputted to the SHA\_HASH hardware register after the hardware
 SHA implementation calculates it \cite{SHA_Registers}. Importantly, This
 register is not cleared until the ARM9 firmware binary clears it after
@@ -586,9 +586,9 @@ perform the implementation v2.0 steps described previously. ARM9Loader will then
 identical to Key \#1), disable access to the OTP memory region by setting
 CFG\_SYSPROT9, and jump to the ARM9 firmware binary entrypoint. When it does, it
 will immediately jump to memory address \texttt{0x80FD0F8}, execute the series
-of NOP instructions and "slide" to the payload. The payload then copies the
-hash of the OTP memory region from the uncleared SHA\_HASH output register for
-the purpose of decrypting the keysector at a later point.
+of NOP instructions and "slide" to the payload. The payload then copies the hash
+of the OTP memory region from the uncleared SHA\_HASH output register for the
+purpose of decrypting the keysector at a later point.
 
 \section{Persistence}
 
@@ -604,8 +604,8 @@ On the 3DS, ARM9Loader and the ARM9 Firmware binary, known collectively as
 "FIRM", are stored twice on NAND in two partitions known as "FIRM0" and "FIRM1
 for redundancy purposes. This means that if one firmware partition becomes
 corrupted, the device will still boot. Note that the FIRM partitions, as with
-most partitions on the device, are encrypted using console unique keys derrved
-from the OTP and set by the bootrom. The boot ROM uses the following
+most partitions on the device, are encrypted using console unique keys derived
+from the OTP and set by the boot ROM. The boot ROM uses the following
 implementation to load FIRM0 and FIRM1 from NAND
 \cite{clevermind}\cite{Bootloader}\cite{OTP_Registers}:
 
