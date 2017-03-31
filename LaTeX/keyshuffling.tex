@@ -441,11 +441,11 @@ encryption layer on the ARM9 firmware binary known in the 3DS community as
 ``ARM9Loader''. This encryption layer loads new keys from NAND sector 0x96 (the
 plaintext of which is the same for all New 3DS devices), which are encrypted
 with AES-128-ECB by a key calculated from a SHA-256 hash of the the
-console-unique (different for every console) ``OTP'' memory region of the device.
-Keys on the 3DS are loaded into write-only ``keyslots'', which are secure memory
-areas readable only by the hardware AES implementation. This means that it
-should not be possible to recover these keys after they have been written to the
-AES module \cite{AES_Registers}.
+console-unique (different for every console) one-time programmable (``OTP'')
+memory region of the device. Keys on the 3DS are loaded into write-only
+``keyslots'', which are secure memory areas readable only by the hardware AES
+implementation. This means that it should not be possible to recover these keys
+after they have been written to the AES module \cite{AES_Registers}.
 
 After ARM9Loader decrypts the NAND ``keysector'', access to the OTP memory region
 is disabled until next boot via the hardware register CFG\_SYSPROT9. Once the
@@ -612,7 +612,7 @@ implementation to load FIRM0 and FIRM1 from NAND
 \medskip
 \begin{enumerate}
   \item Decrypt the OTP memory region and store the first 0x90 bytes in
-  Instruction Tightly-Coupled Memory (``ITCM'')\cite{OTP_Registers}
+  Instruction Tightly-Coupled Memory (``ITCM'')
   \item Calculate AES write-only keyslot 0x06 from decrypted OTP memory region
   in ITCM
   \item Read FIRM0 NAND partition to memory
@@ -649,14 +649,13 @@ deterministic decryption of the 8.1.0 FIRM0 ARM9 firmware binary to a resulting
 incorrect plaintext has a branch instruction to 0x190 bytes after the end of the
 8.1.0 ARM9 firmware binary (\texttt{0x0824D3CB4AE94D624DAA526047C59394}). We use
 0x190 bytes after the end of the 8.1.0 ARM9 firmware binary because empirical
-tests determined that placing the payload any sooner after the 8.1.0 ARM9
-firmware binary caused the payload to be overwritten by an unknown factor in the
-boot process (likely the stack or bss segment). After finding this key, we
-encrypt it with the OTP memory region hash obtained through the keyshuffling
-exploit and install the encrypted key into keysector Key \#2. We then add 0x190
-to the size of the 8.1.0 ARM9 firmware binary and write a payload of our
-choosing to that position relative to the 10.2.0 ARM9 firmware binary
-\cite{32c3}.
+tests determined that placing the payload any sooner caused the payload to be
+overwritten by an unknown factor in the boot process (likely the stack or bss
+segment). After finding this key, we encrypt it with the OTP memory region hash
+obtained through the keyshuffling exploit and install the encrypted key into
+keysector Key \#2. We then add 0x190 to the size of the 8.1.0 ARM9 firmware
+binary and write a payload of our choosing to that position relative to the
+10.2.0 ARM9 firmware binary \cite{32c3}.
 
 When the device is rebooted, the boot ROM loads FIRM0 into memory and decrypts
 it with AES write-only keyslot 0x06. It then checks the RSA signature of
