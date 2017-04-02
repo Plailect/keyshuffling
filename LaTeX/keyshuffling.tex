@@ -582,7 +582,7 @@ reboot.
 When the device comes back up, the ARM9 boot ROM will read ARM9Loader and the
 encrypted ARM9 firmware binary to memory, then jump to ARM9Loader which will
 perform the implementation v2.0 steps described previously. ARM9Loader will then
-(incorrectly) attempts to decrypt the ARM9 firmware with Key \#2 (which is now
+(incorrectly) attempt to decrypt the ARM9 firmware with Key \#2 (which is now
 identical to Key \#1), disable access to the OTP memory region by setting
 CFG\_SYSPROT9, and jump to the ARM9 firmware binary entrypoint. When it does, it
 will immediately jump to memory address \texttt{0x80FD0F8}, execute the series
