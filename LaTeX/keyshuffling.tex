@@ -516,7 +516,6 @@ time. It contains the following implementation of ARM9Loader in the boot process
   result
   \item Write Key \#2 from the keysector to AES write-only keyslot 0x11
   \item Instruct the AES module to decrypt the ARM9 firmware binary
-  \item Disable access to the OTP memory region by setting CFG\_SYSPROT9
   \item Clear AES write-only keyslot 0x11 to zero
   \item Jump to the ARM9 firmware binary entrypoint
 \end{enumerate}
@@ -549,7 +548,7 @@ binary is encrypted with a different counter in AES-128-CTR mode, meaning that
 even code that is the same between versions will decrypt to something completely
 different for each key that we try. A NAND sector on the device is 0x200 bytes
 and each key is 0x10 bytes. When we do not count the Key \#2 that properly
-decrypts the ARM9 firmware binary, that means we have 31 different keys for each
+decrypts the ARM9 firmware binary, which means we have 31 different keys for each
 ARM9 firmware binary version that will all decrypt the binary to a different
 incorrect plaintext which will then be executed.
 
@@ -665,7 +664,7 @@ memory now containing our payload, loads FIRM1 into memory on top of FIRM0 and
 decrypts it with AES write-only keyslot 0x06 \cite{clevermind}. The boot ROM
 checks the RSA signature of FIRM1, which passes because the payload comes after
 the 10.2.0 ARM9 firmware binary. The boot ROM then jumps to the FIRM1 ARM9Loader
-in memory which uses our crafted Key \#2 to deterministically decrypt the 8.1.0
+in memory which uses our crafted Key \#2 to deterministically decrypt the 10.2.0
 ARM9 firmware binary to an incorrect plaintext and jumps to its entrypoint. When
 it does, it will immediately jump to the memory address of the payload of our
 choosing, giving us ARM9 code execution on every successive boot before the ARM9
